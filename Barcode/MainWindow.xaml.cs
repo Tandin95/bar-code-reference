@@ -21,7 +21,7 @@ namespace Barcode
             InitializeComponent();
             Conver += ConverBitmap;
             camDeviceCtrl.NewFrameGot += CamDeviceCtrlNewFrameGot;
-
+            ClearResult();
         }
 
         private void CamDeviceCtrlNewFrameGot(object sender, AForge.Video.NewFrameEventArgs eventArgs)

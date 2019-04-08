@@ -40,9 +40,12 @@ namespace Barcode
 
         private void Disconnect_Click(object sender, RoutedEventArgs e)
         {
-            device.NewFrame -= NewFrameGot;
-            device.SignalToStop();
-            device = null;
+            if(device != null)
+            {
+                device.NewFrame -= NewFrameGot;
+                device.SignalToStop();
+                device = null;
+            }
         }
     }
 }
