@@ -1,18 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace Barcode
 {
+    /// <summary>
+    /// BitmapSourceの拡張メソッドクラス
+    /// </summary>
     static class BitmapSourceExtensions
     {
+        /// <summary>
+        /// bitmap変換処理
+        /// </summary>
+        /// <param name="bitmapSource">BitmapSource</param>
+        /// <param name="pixelFormat">カラーデータ形式</param>
+        /// <returns>Bitmap</returns>
         public static Bitmap ToBitmap(this BitmapSource bitmapSource, PixelFormat pixelFormat)
         {
             if(bitmapSource == null)

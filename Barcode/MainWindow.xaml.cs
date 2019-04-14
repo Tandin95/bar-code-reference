@@ -4,6 +4,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Drawing;
 using System.Windows.Threading;
+using System;
 
 namespace Barcode
 {
@@ -12,10 +13,20 @@ namespace Barcode
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        /// <summary>
+        /// Bitmap変換デリゲート
+        /// </summary>
+        /// <param name="bitmap">対象Bitmap</param>
         private delegate void ConverBmp(Bitmap bitmap);
+
+        /// <summary>
+        /// Bitmap変換
+        /// </summary>
         private ConverBmp Conver;
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -24,21 +35,32 @@ namespace Barcode
             ClearResult();
         }
 
+        /// <summary>
+        /// Converデリゲートを実行する
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="eventArgs"></param>
         private void CamDeviceCtrlNewFrameGot(object sender, AForge.Video.NewFrameEventArgs eventArgs)
         {
             picture.Dispatcher.Invoke(Conver, eventArgs.Frame);
         }
 
+        /// <summary>
+        /// BitmapをBitmapFrameに変換して描画イメージのソースに設定する
+        /// </summary>
+        /// <param name="bitmap"></param>
         private void ConverBitmap(Bitmap bitmap)
         {
             picture.Source = BitmapToBitmapFrame.Convert(bitmap);
         }
 
+        /// <summary>
+        /// バーコード読み取り処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void BarcodRead_Click(object sender, RoutedEventArgs e)
         {
-            DoEvent();
-            ClearResult();
-
             var image = picture.Source as BitmapFrame;
 
             if(image == null)
@@ -46,7 +68,14 @@ namespace Barcode
                 return;
             }
 
+            // Bitmap変換
             Bitmap bitmap = image.ToBitmap(System.Drawing.Imaging.PixelFormat.Format64bppArgb);
+
+            // コントロール更新
+            DoEvent();
+
+            // 初期化
+            ClearResult();
 
             // バーコード読み取り
             // WPFではZXing.Presentation名前空間のBarcodeReaderを使う
@@ -56,6 +85,7 @@ namespace Barcode
                 Options = { TryHarder = true }
             };
 
+            // 非同期処理
             ZXing.Result result = await Task.Run(() => reader.Decode(image));
             if (result != null)
             {
@@ -63,14 +93,20 @@ namespace Barcode
             }
         }
 
+        /// <summary>
+        /// 初期化
+        /// </summary>
         private void ClearResult()
         {
-            //picture.Source = null;
             BarcodeFormatText.Text = "(N/A)";
             TextText.Text = "(N/A)";
             OverlayCanvas.Visibility = Visibility.Collapsed;
         }
 
+        /// <summary>
+        /// バーコード読み取り結果表示
+        /// </summary>
+        /// <param name="result"></param>
         private void ShowResult(ZXing.Result result)
         {
             // テキスト表示
@@ -104,10 +140,14 @@ namespace Barcode
             BitmapSource bitmapSource = picture.Source as BitmapSource;
             PolygonMark.RenderTransform = new RotateTransform(orientaion, bitmapSource.PixelWidth / 2.0, bitmapSource.PixelHeight / 2.0);
 
+            // マーク表示
             OverlayCanvas.Visibility = Visibility.Visible;
             AdjustOverlay();
         }
 
+        /// <summary>
+        /// マーク表示の調整
+        /// </summary>
         private void AdjustOverlay()
         {
             if (!OverlayCanvas.IsVisible)
@@ -124,6 +164,10 @@ namespace Barcode
             }
         }
 
+        /// <summary>
+        /// コントロールを明示的に更新
+        /// 参照：https://www.ipentec.com/document/csharp-wpf-implement-application-doevents
+        /// </summary>
         private void DoEvent()
         {
             DispatcherFrame dispatcherFrame = new DispatcherFrame();
@@ -135,6 +179,17 @@ namespace Barcode
 
             Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, callback, dispatcherFrame);
             Dispatcher.PushFrame(dispatcherFrame);
+        }
+
+        /// <summary>
+        /// クローズ処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // 解放処理
+            camDeviceCtrl.Dispose();
         }
     }
 }
