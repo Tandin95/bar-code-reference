@@ -91,6 +91,11 @@ namespace Barcode
             {
                 ShowResult(result);
             }
+            else if (result == null)
+            {
+                MessageBox.Show("バーコードが読み取れませんでした。再度バーコードの読み取りを行なって下さい", "注意", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
         }
 
         /// <summary>

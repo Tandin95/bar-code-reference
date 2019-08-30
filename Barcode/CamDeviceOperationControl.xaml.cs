@@ -42,6 +42,7 @@ namespace Barcode
             // デバイス名取得判定
             if (string.IsNullOrEmpty(deviceName))
             {
+                MessageBoxResult result = MessageBox.Show("カメラデバイスを選択してから接続して下さい", "注意", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -58,12 +59,15 @@ namespace Barcode
         /// <param name="e"></param>
         private void Disconnect_Click(object sender, RoutedEventArgs e)
         {
-            // null判定
-            if(device != null)
+            if (MessageBox.Show("カメラデバイスと接続されません。", "確認", MessageBoxButton.OK, MessageBoxImage.Information) == MessageBoxResult.OK)
             {
-                device.NewFrame -= NewFrameGot;
-                device.SignalToStop();
-                device = null;
+                // null判定
+                if (device != null)
+                {
+                    device.NewFrame -= NewFrameGot;
+                    device.SignalToStop();
+                    device = null;
+                }
             }
         }
 

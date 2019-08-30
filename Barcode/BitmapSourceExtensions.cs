@@ -53,8 +53,13 @@ namespace Barcode
 
                     // 再作成し直しておくとメモリリークを抑えやすい
 
-                    return new Bitmap(bitmap);
+                    return bitmap;
                 }
+            }
+            catch (Exception ave)
+            {
+                Console.WriteLine(ave.Message);
+                return null;
             }
             finally
             {

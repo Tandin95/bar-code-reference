@@ -15,8 +15,12 @@
         <StackPanel Orientation="Vertical" Margin="0,0,0,0.5">
             <local:CamDeviceOperationControl x:Name="camDeviceCtrl" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="330"/>
             <Grid x:Name="ImageGrid" Background="Gray">
-                <Image x:Name="picture" HorizontalAlignment="Left" Height="246" VerticalAlignment="Top" Width="328"/>
-                <Canvas x:Name="OverlayCanvas">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="177*"/>
+                    <RowDefinition Height="70*"/>
+                </Grid.RowDefinitions>
+                <Image x:Name="picture" HorizontalAlignment="Left" Height="246" VerticalAlignment="Top" Width="328" Grid.RowSpan="2"/>
+                <Canvas x:Name="OverlayCanvas" Margin="0,0,-0.2,0.4" Grid.RowSpan="2">
                     <Polygon x:Name="PolygonMark" Fill="Red" Stroke="DarkRed" StrokeThickness="5" Opacity="0.3" Points="0,0,100,100,0,100" />
                 </Canvas>
             </Grid>
