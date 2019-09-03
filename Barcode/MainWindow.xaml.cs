@@ -87,14 +87,14 @@ namespace Barcode
 
             // 非同期処理
             ZXing.Result result = await Task.Run(() => reader.Decode(image));
+
+            if (result == null)
+            {
+                MessageBox.Show("バーコードが読み取れませんでした。再度バーコードの読み取りを行なって下さい。", "注意", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
             if (result != null)
             {
                 ShowResult(result);
-            }
-            else if (result == null)
-            {
-                MessageBox.Show("バーコードが読み取れませんでした。再度バーコードの読み取りを行なって下さい", "注意", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
             }
         }
 
