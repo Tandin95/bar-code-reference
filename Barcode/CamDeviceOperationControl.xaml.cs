@@ -42,7 +42,8 @@ namespace Barcode
             // デバイス名取得判定
             if (string.IsNullOrEmpty(deviceName))
             {
-                MessageBoxResult result = MessageBox.Show("カメラデバイスを選択してから接続して下さい", "注意", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("カメラデバイスを選択してから接続して下さい", "注意", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
 
             // 選択したデバイス生成
@@ -62,7 +63,7 @@ namespace Barcode
             {
                 if (device == null)
                 {
-                    MessageBoxResult result = MessageBox.Show("カメラデバイスとは接続されていません",
+                    MessageBox.Show("カメラデバイスとは接続されていません",
                         "注意", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
 
