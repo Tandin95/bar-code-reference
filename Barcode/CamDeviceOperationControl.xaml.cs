@@ -64,7 +64,7 @@ namespace Barcode
                 if (device == null)
                 {
                     MessageBox.Show("カメラデバイスとは接続されていません",
-                        "注意", MessageBoxButton.OK, MessageBoxImage.Warning);
+                       "注意", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
 
                 if (device != null)
