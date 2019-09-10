@@ -9,7 +9,7 @@ namespace Barcode
     /// <summary>
     /// CamDeviceOperationControl.xaml の相互作用ロジック
     /// </summary>
-    public partial class CamDeviceOperationControl : UserControl,IDisposable
+    public partial class CamDeviceOperationControl : UserControl, IDisposable
     {
         /// <summary>
         /// イベント
@@ -42,7 +42,7 @@ namespace Barcode
             // デバイス名取得判定
             if (string.IsNullOrEmpty(deviceName))
             {
-                MessageBox.Show("カメラデバイスを選択してから接続して下さい", "注意", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("カメラデバイスを選択してから接続して下さい。", "注意", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -60,18 +60,15 @@ namespace Barcode
         private void Disconnect_Click(object sender, RoutedEventArgs e)
         {
 
+            if (device == null)
             {
-                if (device == null)
-                {
-                    MessageBox.Show("カメラデバイスとは接続されていません",
-                       "注意", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-                    device.NewFrame -= NewFrameGot;
-                    device.SignalToStop();
-                    device = null;
-               
+                MessageBox.Show("カメラデバイスとは接続されていません。", "注意", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
+
+            device.NewFrame -= NewFrameGot;
+            device.SignalToStop();
+            device = null;
         }
 
         #region IDisposable Support
@@ -92,7 +89,7 @@ namespace Barcode
 
                 // TODO: アンマネージド リソース (アンマネージド オブジェクト) を解放し、下のファイナライザーをオーバーライドします。
                 // TODO: 大きなフィールドを null に設定します。
-                if(device != null)
+                if (device != null)
                 {
                     device.NewFrame -= NewFrameGot;
                     device.SignalToStop();
@@ -127,3 +124,4 @@ namespace Barcode
         #endregion
     }
 }
+

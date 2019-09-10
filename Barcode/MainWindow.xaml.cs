@@ -33,8 +33,8 @@ namespace Barcode
             Conver += ConverBitmap;
             camDeviceCtrl.NewFrameGot += CamDeviceCtrlNewFrameGot;
             ClearResult();
-        }
 
+        }
         /// <summary>
         /// Converデリゲートを実行する
         /// </summary>
@@ -63,7 +63,7 @@ namespace Barcode
         {
             var image = picture.Source as BitmapFrame;
 
-            if(image == null)
+            if (image == null)
             {
                 return;
             }
@@ -93,7 +93,8 @@ namespace Barcode
                 MessageBox.Show("バーコードが読み取れませんでした。再度バーコードの読み取りを行なって下さい。", "注意", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-                ShowResult(result);
+
+            ShowResult(result);
         }
 
         /// <summary>
@@ -121,7 +122,7 @@ namespace Barcode
             PolygonMark.BeginInit();
             {
                 PolygonMark.Points.Clear();
-                foreach(var p in points)
+                foreach (var p in points)
                 {
                     PolygonMark.Points.Add(new System.Windows.Point(p.X, p.Y));
                 }
@@ -158,7 +159,7 @@ namespace Barcode
                 return;
             }
 
-            if(picture.Source is BitmapSource bs)
+            if (picture.Source is BitmapSource bs)
             {
                 System.Windows.Point imagePoint = picture.TransformToAncestor(ImageGrid).Transform(new System.Windows.Point(0, 0));
 
@@ -196,3 +197,4 @@ namespace Barcode
         }
     }
 }
+
